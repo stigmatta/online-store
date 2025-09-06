@@ -1,9 +1,11 @@
 package Entities;
 
+import Abstraction.Interfaces.Purchasable;
+
 import java.util.ArrayList;
 
 public class OnlineStore {
-    private static ArrayList<User> users = new ArrayList<>();
+    private final static ArrayList<User> users = new ArrayList<>();
     private static String storeName;
     private static int storeId;
 
@@ -13,6 +15,36 @@ public class OnlineStore {
         System.out.println("Online Store initialized: " + storeName + " (ID: " + storeId + ")");
 
         initializeTestData();
+        double sum = getAllProductsCount();
+        System.out.println("All products count: " + sum);
+        purchaseAll(users.getFirst().getCarts().getFirst());
+    }
+
+    public static void setup(){
+        System.out.println("Setup started");
+    }
+
+    public static void purchaseAll(Cart cart) {
+        if (cart == null || cart.products().isEmpty()) {
+            System.out.println("No items to purchase.");
+            return;
+        }
+        ArrayList<Purchasable> items = cart.products();
+
+        double totalAmount = 0;
+
+        for (Purchasable item : items) {
+            if (item != null) {
+                totalAmount += item.getPrice();
+                cart.deleteProduct(item);
+                System.out.println("✓ Purchase successful!");
+            }
+        }
+
+        System.out.println("\n=== Purchase Summary ===");
+        System.out.println("Total items: " + items.size());
+        System.out.println("Total amount: $" + totalAmount);
+        System.out.println("=======================\n");
     }
 
     public static double getAllProductsCount() {
@@ -26,12 +58,12 @@ public class OnlineStore {
     }
 
     public static double getCartsCount(ArrayList<Cart> carts) {
-        if (carts == null){
+        if (carts == null) {
             return 0;
         }
         return carts.stream()
-                .flatMap(cart -> cart.getProducts().stream())
-                .mapToDouble(Product::getPrice)
+                .flatMap(cart -> cart.products().stream())
+                .mapToDouble(Purchasable::getPrice)
                 .sum();
     }
 
@@ -55,6 +87,7 @@ public class OnlineStore {
     public static String getStoreName() {
         return storeName;
     }
+
     public static void setStoreName(String name) {
         storeName = name;
     }
@@ -62,23 +95,24 @@ public class OnlineStore {
     public static int getStoreId() {
         return storeId;
     }
+
     public static void setStoreId(int id) {
         storeId = id;
     }
 
     private static void initializeTestData() {
-        Product p1 = new Product("Laptop", "Dell", 999.99);
-        Product p2 = new Product("Smartphone", "Samsung", 699.99);
-        Product p3 = new Product("Headphones", "Sony", 199.99);
-        Product p4 = new Product("Mouse", "Logitech", 49.99);
+        Purchasable physical1 = new PhysicalProduct("Laptop", "Dell", 999.99, 2.5);
+        Purchasable physical2 = new PhysicalProduct("Smartphone", "Samsung", 699.99, 0.2);
+        Purchasable digital1 = new DigitalProduct("Photo Editor Pro", "Adobe", 199.99, 250.5);
+        Purchasable digital2 = new DigitalProduct("E-Book: Java Programming", "TechBooks", 49.99, 15.2);
 
         Cart cart1 = new Cart();
-        cart1.addProduct(p1);
-        cart1.addProduct(p3);
+        cart1.addProduct(physical1);
+        cart1.addProduct(digital1);
 
         Cart cart2 = new Cart();
-        cart2.addProduct(p2);
-        cart2.addProduct(p4);
+        cart2.addProduct(physical2);
+        cart2.addProduct(digital2);
 
         User user1 = new User("User1");
         user1.addCart(cart1);
@@ -91,8 +125,8 @@ public class OnlineStore {
 
         System.out.println("Test data initialized with " + users.size() + " users");
 
-        double sum = getAllProductsCount();
-        System.out.println("All products count: " + sum);
+
+
     }
 
     @Override

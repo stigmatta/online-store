@@ -1,6 +1,8 @@
-package Entities;
+package Abstraction.AbstractEntities;
 
-public class Product {
+import Abstraction.Interfaces.Purchasable;
+
+public abstract class Product implements Purchasable {
     private String name;
     private String brand;
     private double price;
@@ -27,16 +29,17 @@ public class Product {
         return price;
     }
 
+    @Override
+    public void setPrice(double price) {
+        this.price = price;
+    }
+
     public void setName(String name) {
         this.name = name;
     }
 
     public void setBrand(String brand) {
         this.brand = brand;
-    }
-
-    public void setPrice(float price) {
-        this.price = price;
     }
 
     @Override
