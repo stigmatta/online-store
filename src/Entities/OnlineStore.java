@@ -17,7 +17,11 @@ public class OnlineStore {
         initializeTestData();
         double sum = getAllProductsCount();
         System.out.println("All products count: " + sum);
-        purchaseAll(users.getFirst().getCarts().getFirst());
+        Cart cart = users.getFirst().getCarts().getFirst();
+        purchaseAll(cart);
+
+        Purchasable product = cart.getProduct(99);
+        System.out.println("Product`s price: "+ product.getPrice());
     }
 
     public static void setup(){

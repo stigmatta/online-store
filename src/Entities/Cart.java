@@ -1,6 +1,7 @@
 package Entities;
 
 import Abstraction.Interfaces.Purchasable;
+import Exceptions.ProductNotFoundException;
 
 import java.util.ArrayList;
 
@@ -18,8 +19,15 @@ public record Cart(ArrayList<Purchasable> products) {
         products.add(product);
     }
 
-    public void deleteProduct(Purchasable item) {
-        products.remove(item);
+    public void deleteProduct(Purchasable product) {
+        products.remove(product);
+    }
+
+    public Purchasable getProduct(int index) throws ProductNotFoundException {
+        if (index < 0 || index >= products.size()) {
+            throw new ProductNotFoundException();
+        }
+        return products.get(index);
     }
 
     @Override
