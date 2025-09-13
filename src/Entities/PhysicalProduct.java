@@ -1,7 +1,11 @@
 package Entities;
 
 import Abstraction.AbstractEntities.Product;
+import lombok.Getter;
+import lombok.Setter;
 
+@Setter
+@Getter
 public class PhysicalProduct extends Product {
     private double weight;
 
@@ -10,11 +14,4 @@ public class PhysicalProduct extends Product {
         this.weight = weight;
     }
 
-    public double getWeight() {
-        return weight;
-    }
-
-    public void setWeight(double weight) {
-        this.weight = weight;
-    }
 }

@@ -1,7 +1,11 @@
 package Entities;
 
 import Abstraction.AbstractEntities.Product;
+import lombok.Getter;
+import lombok.Setter;
 
+@Setter
+@Getter
 public class DigitalProduct extends Product {
     private double fileSize;
 
@@ -10,11 +14,4 @@ public class DigitalProduct extends Product {
         this.fileSize = fileSize;
     }
 
-    public double getFileSize() {
-        return fileSize;
-    }
-
-    public void setFileSize(double fileSize) {
-        this.fileSize = fileSize;
-    }
 }

@@ -1,12 +1,21 @@
 package Entities;
 
 import Abstraction.Interfaces.Purchasable;
+import Enums.PaymentMethod;
+import lombok.Getter;
+import lombok.Setter;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class OnlineStore {
     private final static ArrayList<User> users = new ArrayList<>();
+    @Setter
+    @Getter
     private static String storeName;
+    @Setter
+    @Getter
     private static int storeId;
 
     static {
@@ -88,22 +97,6 @@ public class OnlineStore {
         return new ArrayList<>(users);
     }
 
-    public static String getStoreName() {
-        return storeName;
-    }
-
-    public static void setStoreName(String name) {
-        storeName = name;
-    }
-
-    public static int getStoreId() {
-        return storeId;
-    }
-
-    public static void setStoreId(int id) {
-        storeId = id;
-    }
-
     private static void initializeTestData() {
         Purchasable physical1 = new PhysicalProduct("Laptop", "Dell", 999.99, 2.5);
         Purchasable physical2 = new PhysicalProduct("Smartphone", "Samsung", 699.99, 0.2);
@@ -129,7 +122,13 @@ public class OnlineStore {
 
         System.out.println("Test data initialized with " + users.size() + " users");
 
-
+        Order order = new Order();
+        order.setPrice(15.2);
+        order.setOrderDateTime(LocalDateTime.now());
+        order.setCustomer(user1);
+        order.setProducts(new ArrayList<>(Arrays.asList(physical1, digital2)));
+        order.setPaymentMethod(PaymentMethod.Visa);
+        System.out.println(order);
 
     }
 
